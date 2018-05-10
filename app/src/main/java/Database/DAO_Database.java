@@ -1,13 +1,13 @@
-package za.ac.uj.eve.dynamicwealthassistant;
+package Database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DB_Manager extends SQLiteOpenHelper {
+public class DAO_Database extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "WealthAssistant.db";
 
-    public DB_Manager(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    public DAO_Database(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 

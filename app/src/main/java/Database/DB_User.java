@@ -1,4 +1,4 @@
-package za.ac.uj.eve.dynamicwealthassistant;
+package Database;
 
 public class DB_User {
     public static final String TABLE_NAME = "User";
