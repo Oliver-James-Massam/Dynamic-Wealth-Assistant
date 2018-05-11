@@ -8,13 +8,13 @@ import android.arch.persistence.room.PrimaryKey;
 import java.util.Date;
 
 @Entity(foreignKeys = {
-        @ForeignKey(entity = Value.class,
+        @ForeignKey(entity = Category.class,
                 parentColumns = "categoryID",
                 childColumns = "categoryID"),
         @ForeignKey(entity = Account.class,
                 parentColumns = "accID",
                 childColumns = "accID"),
-        @ForeignKey(entity = Value.class,
+        @ForeignKey(entity = Recurring.class,
                 parentColumns = "recurringID",
                 childColumns = "recurringID")})
 public class Value {

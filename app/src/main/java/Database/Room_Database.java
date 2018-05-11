@@ -3,9 +3,11 @@ package Database;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
+import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
 @Database(entities = {User.class, Account.class, Category.class, History.class, Value.class, Recurring.class}, version = 1)
+@TypeConverters({Converters.class})
 public abstract class Room_Database extends RoomDatabase{
 
     public abstract DAO_Database dao_database();
