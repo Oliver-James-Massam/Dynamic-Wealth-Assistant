@@ -3,4 +3,11 @@
     <color name="colorPrimary">#76B59B</color>
     <color name="colorPrimaryDark">#388659</color>
     <color name="colorAccent">#52aa5e</color>
+
+    <color name="buttonLabel">#ffffff</color>
+
+    <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#00000000</color>
+    <color name="gradStart">#76B59B</color>
+    <color name="gradStop">#388659</color>
 </resources>
