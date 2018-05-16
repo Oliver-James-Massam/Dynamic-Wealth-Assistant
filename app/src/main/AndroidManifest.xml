@@ -35,8 +35,11 @@
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity
-            android:name=".CreateAddValue"
+            android:name=".AddIncomeValue"
             android:label=" Add Income" />
+        <activity
+            android:name=".AddExpenseValue"
+            android:label=" Add Expense" />
     </application>
 
 </manifest>

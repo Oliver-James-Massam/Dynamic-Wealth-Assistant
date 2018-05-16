@@ -7,28 +7,28 @@
     android:padding="24dp">
 
     <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Add Value:"-->
-        <!--android:textSize="24sp"/>-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="Add Value:"-->
+    <!--android:textSize="24sp"/>-->
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/newValueAmount"
+            android:id="@+id/newExpenseValueAmount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Value"
+            android:hint="Enter Expense Value"
             android:inputType="number"></android.support.design.widget.TextInputEditText>
 
     </android.support.design.widget.TextInputLayout>
     <Button
-        android:id="@+id/btnAddValue"
+        android:id="@+id/btnAddExpenseValue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add New Income"
+        android:text="Add New Expense"
         android:background="@color/colorPrimary"
         android:textColor="@color/buttonLabel"/>
 </LinearLayout>
