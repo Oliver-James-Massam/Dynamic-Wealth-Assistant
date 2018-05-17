@@ -1,10 +1,13 @@
 package za.ac.uj.eve.dynamicwealthassistant;
 
 import android.arch.persistence.room.Room;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -16,18 +19,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-    private FloatingActionButton fab;
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
-    //private ArrayList<Value> values;
+    //Database
+    private AppDatabase db;
+    //List View
+    private ExpandableListView listView;
+    private ExpandableListAdapter listAdapter;
+    private List<String> listDataHeader;
+    private HashMap<String, List<String>> listHashMap;
+    //Other Variables
+    private char myCurr = 'R';
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,18 +73,110 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //Recycler View
-        recyclerView = findViewById(R.id.recycler_view);
-
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "finance")
+        //Initialise the Database
+        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "finance")
                 .allowMainThreadQueries()
                 .build();
 
-        List<Value> values = db.dao_database().getValuesAll();
+        //List View
+        listView = (ExpandableListView)findViewById(R.id.lvExp);
+        initData();
+        listAdapter = new ExpandableListAdapter(this, listDataHeader, listHashMap);
+        listView.setAdapter(listAdapter);
+    }
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ValueAdapter(values);
-        recyclerView.setAdapter(adapter);
+    //Initialise List View Data
+    private void initData()
+    {
+        listDataHeader = new ArrayList<>();
+        listHashMap = new HashMap<>();
+        //List View Headers
+        listDataHeader.add("Bills");
+        listDataHeader.add("Car");
+        listDataHeader.add("Transport");
+        listDataHeader.add("House");
+        listDataHeader.add("Eating Out");
+        listDataHeader.add("Medical");
+        listDataHeader.add("Entertainment");
+        listDataHeader.add("Food");
+        listDataHeader.add("Other");
+        //List View Item Array
+        List<String> bills = new ArrayList<>();
+        List<String> car = new ArrayList<>();
+        List<String> transport = new ArrayList<>();
+        List<String> house = new ArrayList<>();
+        List<String> eatingOut = new ArrayList<>();
+        List<String> medical = new ArrayList<>();
+        List<String> entertainment = new ArrayList<>();
+        List<String> food = new ArrayList<>();
+        List<String> other = new ArrayList<>();
+
+        List<Value> values = db.dao_database().getValuesAll();
+        for (Value value: values)
+        {
+            //Date display format
+            String strDateFormat = "dd-MMM-yyyy";// hh:mm:ss a
+            SimpleDateFormat objSDF = new SimpleDateFormat(strDateFormat);
+            //Display value in item
+            String strOut;
+            if(value.getValueType().equals("Expense"))
+            {
+                strOut = "(" + objSDF.format(value.getTransactionDate())+ ")\t\t\t\t" + "-  " + myCurr + value.getAmount();
+            }
+            else
+            {
+                strOut = "(" + objSDF.format(value.getTransactionDate())+ ")\t\t\t\t" + "+ " + myCurr + value.getAmount();
+            }
+
+            Category category = Category.valueOf(value.getCategoryName());
+            switch (category)
+            {
+                case Bills:
+                    bills.add(strOut);
+                    break;
+                case Car:
+                    car.add(strOut);
+                    break;
+                case Transport:
+                    transport.add(strOut);
+                    break;
+                case House:
+                    house.add(strOut);
+                    break;
+                case EatingOut:
+                    eatingOut.add(strOut);
+                    break;
+                case Medical:
+                    medical.add(strOut);
+                    break;
+                case Entertainment:
+                    entertainment.add(strOut);
+                    break;
+                case Food:
+                    food.add(strOut);
+                    break;
+                case Other:
+                    other.add(strOut);
+                    break;
+            }
+        }
+
+        listHashMap.put(listDataHeader.get(0),bills);
+        listHashMap.put(listDataHeader.get(1),car);
+        listHashMap.put(listDataHeader.get(2),transport);
+        listHashMap.put(listDataHeader.get(3),house);
+        listHashMap.put(listDataHeader.get(4),eatingOut);
+        listHashMap.put(listDataHeader.get(5),medical);
+        listHashMap.put(listDataHeader.get(6),entertainment);
+        listHashMap.put(listDataHeader.get(7),food);
+        listHashMap.put(listDataHeader.get(8),other);
+
+        //Setting Balance from Shared Preferences
+        SharedPreferences preferences = getSharedPreferences("BALANCE", MODE_PRIVATE);
+        int balance = preferences.getInt("BalanceData", 0);
+
+        Button btnBalance = (Button) findViewById(R.id.balance_display);
+        btnBalance.setText(myCurr + " " + balance);
     }
 
     @Override
@@ -100,7 +204,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        //getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -109,13 +213,6 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -125,18 +222,51 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_manage_balance) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        }  else if (id == R.id.nav_change_pin) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_reset_data) {
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
+            mBuilder.setTitle(R.string.dialog_title);
+            mBuilder.setMessage(R.string.dialog_message);
+            mBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    db.dao_database().deleteAll();
+                    // Shared Preferences
+                    SharedPreferences preferences = getSharedPreferences("MYLOGIN", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    // Commit to shared preferences
+                    editor.putString("LoginData","");
+                    editor.commit();
 
-        } else if (id == R.id.nav_manage) {
+                    // Shared Preferences
+                    preferences = getSharedPreferences("BALANCE", MODE_PRIVATE);
+                    editor = preferences.edit();
+                    // Commit to shared preferences
+                    editor.putInt("BalanceData",0);
+                    editor.commit();
 
-        } else if (id == R.id.nav_share) {
+                    preferences = getSharedPreferences("BUDGET", MODE_PRIVATE);
+                    editor = preferences.edit();
+                    // Commit to shared preferences
+                    editor.putInt("BudgetData",0);
+                    editor.commit();
 
-        } else if (id == R.id.nav_send) {
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    dialog.dismiss();
+                }
+            });
+            mBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
 
+            AlertDialog alertDialog = mBuilder.create();
+            alertDialog.show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

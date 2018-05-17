@@ -92,14 +92,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         //Splash
         rellay1 = (RelativeLayout) findViewById(R.id.rellay1);
         rellay2 = (RelativeLayout) findViewById(R.id.rellay2);
-
         handler.postDelayed(runnable, 2000); //2000 is the timeout for the splash
-        //Set Icon in Action Bar
 
-        //getSupportActionBar().setDisplayShowHomeEnabled(true);
-        //getSupportActionBar().setLogo(R.drawable.ic_action_wallet_filled_money);
-        //getSupportActionBar().setDisplayUseLogoEnabled(true);
-
+        //Start checking for PIN accuracy
         mPasswordView = (EditText) findViewById(R.id.pinPassword);
 
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -107,8 +102,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 SharedPreferences preferences = getSharedPreferences("MYLOGIN", MODE_PRIVATE);
                 String storedPass = preferences.getString("LoginData", "-1");
-                // Simulate network access.
-                Log.d(TAG, "Preference:        " + storedPass + "       password:       " + mPasswordView.getText().toString());
+
                 if(mPasswordView.getText().toString().equals(storedPass))
                 {
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));

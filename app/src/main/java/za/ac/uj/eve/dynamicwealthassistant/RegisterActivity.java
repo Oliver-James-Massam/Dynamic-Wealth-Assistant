@@ -32,17 +32,6 @@ public class RegisterActivity extends AppCompatActivity {
         mPasswordView = (EditText) findViewById(R.id.pinPassword1);
         mPasswordViewConfirmed = (EditText) findViewById(R.id.pinPasswordConfirmed);
 
-//        mPasswordViewConfirmed.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-//                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-//                    attemptRegister(textView);
-//                    return true;
-//                }
-//                return false;
-//            }
-//        });
-
         Button btnRegister = (Button) findViewById(R.id.btnRegister);
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,8 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
     {
         String pass = mPasswordView.getText().toString();
         String passCon = mPasswordViewConfirmed.getText().toString();
-//        Log.d(TAG, "2 password:        " + mPasswordView.getText().toString() + "      passwordConfirmed:     " + mPasswordViewConfirmed.getText().toString());
-//        Log.d(TAG, "3 password:        " + pass + "      passwordConfirmed:     " + passCon);
+        //Check if PINS are equal
         if(pass.equals(passCon))
         {
             // Shared Preferences

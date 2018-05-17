@@ -24,4 +24,7 @@ public interface DAO_Database {
 
     @Query("SELECT * FROM Value")
     List<Value> getValuesAll();
+
+    @Query("DELETE FROM Value")
+    void deleteAll();
 }
