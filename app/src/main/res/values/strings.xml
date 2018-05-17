@@ -95,4 +95,6 @@
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="dialog_message">Are you sure you would like to reset all data. Once the data has been deleted, it cannot be recovered.</string>
     <string name="dialog_title">Confirm deletion of all data</string>
+    <string name="dialog_register_message">Are you sure you would like to register a new account? Doing so will permanently delete the existing account and all its data.  You can safely change your PIN in the menu option once logged in.</string>
+    <string name="dialog_register_title">Overwrite current user</string>
 </resources>

@@ -7,12 +7,6 @@
     android:background="@color/colorBackground"
     android:padding="24dp">
 
-    <!--<TextView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="Add Value:"-->
-    <!--android:textSize="24sp"/>-->
-
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -25,18 +19,182 @@
             android:inputType="number"></android.support.design.widget.TextInputEditText>
 
     </android.support.design.widget.TextInputLayout>
-    <Button
-        android:id="@+id/btnAddExpenseValue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add New Expense"
-        android:background="@color/colorPrimary"
-        android:textColor="@color/buttonLabel"/>
 
-    <CheckBox
-        android:id="@+id/checkBox"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="CheckBox" />
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btnExpenceBills"
+                android:text="Bills"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="sans-serif-medium"
+                android:background="@drawable/btn_category"
+                android:imeOptions="actionDone"
+                android:layout_marginRight="5dp"
+                android:textAllCaps="true"/>
+
+            <Button
+                android:id="@+id/btnExpenceTransport"
+                android:text="Transport"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="sans-serif-medium"
+                android:background="@drawable/btn_category"
+                android:imeOptions="actionDone"
+                android:textAllCaps="true"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btnExpenceCar"
+                android:text="Car"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="sans-serif-medium"
+                android:background="@drawable/btn_category"
+                android:imeOptions="actionDone"
+                android:layout_marginRight="5dp"
+                android:textAllCaps="true"/>
+
+            <Button
+                android:id="@+id/btnExpenceHouse"
+                android:text="House"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="sans-serif-medium"
+                android:background="@drawable/btn_category"
+                android:imeOptions="actionDone"
+                android:textAllCaps="true"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btnExpenceFood"
+                android:text="Food"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="sans-serif-medium"
+                android:background="@drawable/btn_category"
+                android:imeOptions="actionDone"
+                android:layout_marginRight="5dp"
+                android:textAllCaps="true"/>
+
+            <Button
+                android:id="@+id/btnExpenceEatingOut"
+                android:text="Eating Out"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="sans-serif-medium"
+                android:background="@drawable/btn_category"
+                android:imeOptions="actionDone"
+                android:textAllCaps="true"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btnExpenceMedical"
+                android:text="Medical"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="sans-serif-medium"
+                android:background="@drawable/btn_category"
+                android:imeOptions="actionDone"
+                android:layout_marginRight="5dp"
+                android:textAllCaps="true"/>
+
+            <Button
+                android:id="@+id/btnExpenceEntertainment"
+                android:text="Entertainment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="sans-serif-medium"
+                android:background="@drawable/btn_category"
+                android:imeOptions="actionDone"
+                android:textAllCaps="true"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btnExpenceOther"
+                android:text="Other"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="sans-serif-medium"
+                android:background="@drawable/btn_category"
+                android:imeOptions="actionDone"
+                android:textAllCaps="true"/>
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

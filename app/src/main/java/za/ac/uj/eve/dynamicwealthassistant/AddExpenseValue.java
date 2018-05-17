@@ -16,8 +16,18 @@ import java.util.Date;
 
 public class AddExpenseValue extends AppCompatActivity {
     private EditText value;
-    private Button addValue;
     private Context context;
+    private AppDatabase db;
+    //Category Buttons
+    private Button btnExpenceBills;
+    private Button btnExpenceCar;
+    private Button btnExpenceHouse;
+    private Button btnExpenceFood;
+    private Button btnExpenceMedical;
+    private Button btnExpenceEatingOut;
+    private Button btnExpenceEntertainment;
+    private Button btnExpenceTransport;
+    private Button btnExpenceOther;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,40 +39,110 @@ public class AddExpenseValue extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setLogo(R.drawable.ic_action_wallet_filled_money);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
-
+        //Declare Value
         value = findViewById(R.id.newExpenseValueAmount);
-        addValue = findViewById(R.id.btnAddExpenseValue);
-
-        final AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "finance")
+        //Declare Buttons
+        btnExpenceBills = findViewById(R.id.btnExpenceBills);
+        btnExpenceCar = findViewById(R.id.btnExpenceCar);
+        btnExpenceEatingOut = findViewById(R.id.btnExpenceEatingOut);
+        btnExpenceEntertainment = findViewById(R.id.btnExpenceEntertainment);
+        btnExpenceFood = findViewById(R.id.btnExpenceFood);
+        btnExpenceHouse = findViewById(R.id.btnExpenceHouse);
+        btnExpenceMedical = findViewById(R.id.btnExpenceMedical);
+        btnExpenceTransport = findViewById(R.id.btnExpenceTransport);
+        btnExpenceOther = findViewById(R.id.btnExpenceOther);
+        //Open DB
+        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "finance")
                 .allowMainThreadQueries()
                 .build();
 
-        addValue.setOnClickListener(new View.OnClickListener() {
+        btnExpenceBills.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Check to make sure there is a valid number before using it
-                if(!value.getText().toString().isEmpty() && !value.getText().toString().equals("0"))
-                {
-                    Date date = new Date();
-                    int val = Integer.parseInt(value.getText().toString());
-
-                    db.dao_database().insertValue(new Value("Expense", val, "Other", date,1));
-                    // Shared Preferences for balance
-                    SharedPreferences preferences = getSharedPreferences("BALANCE", MODE_PRIVATE);
-                    int balance = preferences.getInt("BalanceData", 0);
-                    balance = balance - val;
-
-                    SharedPreferences.Editor editor = preferences.edit();
-                    // Commit to shared preferences
-                    editor.putInt("BalanceData",balance);
-                    editor.commit();
-                    startActivity(new Intent(AddExpenseValue.this, MainActivity.class));
-                }
-                else
-                {
-                    Toast.makeText(context, "Please enter a number greater than 0", Toast.LENGTH_SHORT).show();
-                }
+                saveData("Bills");
             }
         });
+
+        btnExpenceTransport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveData("Transport");
+            }
+        });
+
+        btnExpenceHouse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveData("House");
+            }
+        });
+
+        btnExpenceCar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveData("Car");
+            }
+        });
+
+        btnExpenceFood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveData("Food");
+            }
+        });
+
+        btnExpenceMedical.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveData("Medical");
+            }
+        });
+
+        btnExpenceEatingOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveData("EatingOut");
+            }
+        });
+
+        btnExpenceEntertainment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveData("Entertainment");
+            }
+        });
+
+        btnExpenceOther.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveData("Other");
+            }
+        });
+    }
+
+    public void saveData(String category)
+    {
+        //Check to make sure there is a valid number before using it
+        if(!value.getText().toString().isEmpty() && !value.getText().toString().equals("0"))
+        {
+            Date date = new Date();
+            int val = Integer.parseInt(value.getText().toString());
+
+            db.dao_database().insertValue(new Value("Expense", val, category, date,1));
+            // Shared Preferences for balance
+            SharedPreferences preferences = getSharedPreferences("BALANCE", MODE_PRIVATE);
+            int balance = preferences.getInt("BalanceData", 0);
+            balance = balance - val;
+
+            SharedPreferences.Editor editor = preferences.edit();
+            // Commit to shared preferences
+            editor.putInt("BalanceData",balance);
+            editor.commit();
+            startActivity(new Intent(AddExpenseValue.this, MainActivity.class));
+        }
+        else
+        {
+            Toast.makeText(context, "Please enter a number greater than 0", Toast.LENGTH_SHORT).show();
+        }
     }
 }

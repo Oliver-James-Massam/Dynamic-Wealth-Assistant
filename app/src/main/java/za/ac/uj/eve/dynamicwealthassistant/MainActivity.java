@@ -90,25 +90,25 @@ public class MainActivity extends AppCompatActivity
     {
         listDataHeader = new ArrayList<>();
         listHashMap = new HashMap<>();
-        //List View Headers
+        //List View Headers  in order of how they are displayed
         listDataHeader.add("Bills");
-        listDataHeader.add("Car");
         listDataHeader.add("Transport");
+        listDataHeader.add("Car");
         listDataHeader.add("House");
+        listDataHeader.add("Food");
         listDataHeader.add("Eating Out");
         listDataHeader.add("Medical");
         listDataHeader.add("Entertainment");
-        listDataHeader.add("Food");
         listDataHeader.add("Other");
-        //List View Item Array
+        //List View Item Array in order of how they are displayed
         List<String> bills = new ArrayList<>();
-        List<String> car = new ArrayList<>();
         List<String> transport = new ArrayList<>();
+        List<String> car = new ArrayList<>();
         List<String> house = new ArrayList<>();
+        List<String> food = new ArrayList<>();
         List<String> eatingOut = new ArrayList<>();
         List<String> medical = new ArrayList<>();
         List<String> entertainment = new ArrayList<>();
-        List<String> food = new ArrayList<>();
         List<String> other = new ArrayList<>();
 
         List<Value> values = db.dao_database().getValuesAll();
@@ -160,15 +160,15 @@ public class MainActivity extends AppCompatActivity
                     break;
             }
         }
-
+        //Place each list into List Grouping
         listHashMap.put(listDataHeader.get(0),bills);
-        listHashMap.put(listDataHeader.get(1),car);
-        listHashMap.put(listDataHeader.get(2),transport);
+        listHashMap.put(listDataHeader.get(1),transport);
+        listHashMap.put(listDataHeader.get(2),car);
         listHashMap.put(listDataHeader.get(3),house);
-        listHashMap.put(listDataHeader.get(4),eatingOut);
-        listHashMap.put(listDataHeader.get(5),medical);
-        listHashMap.put(listDataHeader.get(6),entertainment);
-        listHashMap.put(listDataHeader.get(7),food);
+        listHashMap.put(listDataHeader.get(4),food);
+        listHashMap.put(listDataHeader.get(5),eatingOut);
+        listHashMap.put(listDataHeader.get(6),medical);
+        listHashMap.put(listDataHeader.get(7),entertainment);
         listHashMap.put(listDataHeader.get(8),other);
 
         //Setting Balance from Shared Preferences
@@ -223,9 +223,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_manage_balance) {
-            // Handle the camera action
+            startActivity(new Intent(MainActivity.this, ManageBalanceActivity.class));
         }  else if (id == R.id.nav_change_pin) {
-
+            startActivity(new Intent(MainActivity.this, ChangePinActivity.class));
         } else if (id == R.id.nav_reset_data) {
             AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
             mBuilder.setTitle(R.string.dialog_title);
@@ -233,27 +233,28 @@ public class MainActivity extends AppCompatActivity
             mBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    //Delete all values
                     db.dao_database().deleteAll();
-                    // Shared Preferences
+                    // Delete Shared Preferences
                     SharedPreferences preferences = getSharedPreferences("MYLOGIN", MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
                     // Commit to shared preferences
-                    editor.putString("LoginData","");
+                    editor.putString("LoginData","-1");
                     editor.commit();
 
-                    // Shared Preferences
+                    // Delete Shared Preferences
                     preferences = getSharedPreferences("BALANCE", MODE_PRIVATE);
                     editor = preferences.edit();
                     // Commit to shared preferences
                     editor.putInt("BalanceData",0);
                     editor.commit();
-
+                    // Delete Shared Preferences
                     preferences = getSharedPreferences("BUDGET", MODE_PRIVATE);
                     editor = preferences.edit();
                     // Commit to shared preferences
                     editor.putInt("BudgetData",0);
                     editor.commit();
-
+                    // Go back to Login
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
                     dialog.dismiss();
                 }
@@ -264,7 +265,7 @@ public class MainActivity extends AppCompatActivity
                     dialog.dismiss();
                 }
             });
-
+            //Build and show the alert
             AlertDialog alertDialog = mBuilder.create();
             alertDialog.show();
         }
