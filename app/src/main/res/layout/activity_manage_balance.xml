@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:textSize="18dp"
-        android:text="Recur on the 1st day of each month" />
+        android:text="Recur 1st day of each month" />
 
 
 </LinearLayout>

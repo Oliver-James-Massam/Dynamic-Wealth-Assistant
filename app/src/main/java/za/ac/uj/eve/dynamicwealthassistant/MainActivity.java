@@ -24,7 +24,11 @@ import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +51,38 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //Check for reoccuring
+        SharedPreferences preferences = getSharedPreferences("BUDGET", MODE_PRIVATE);
+        int budget = preferences.getInt("BudgetData", -1);
+        //Is budget defined
+        if (budget > -1)
+        {
+            preferences = getSharedPreferences("LASTMONTH", MODE_PRIVATE);
+            int lastMonth = preferences.getInt("LastMonthData", -1);
+            //get Date
+            Date date = new Date();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            int month = cal.get(Calendar.MONTH);
+            //Is a new month
+            if(month != lastMonth)
+            {
+                preferences = getSharedPreferences("BALANCE", MODE_PRIVATE);
+                int balance = budget;
+
+                SharedPreferences.Editor editor = preferences.edit();
+                // Commit to shared preferences
+                editor.putInt("BalanceData",balance);
+                editor.commit();
+
+                preferences = getSharedPreferences("LASTMONTH", MODE_PRIVATE);
+                editor = preferences.edit();
+                // Commit to shared preferences
+                editor.putInt("LastMonthData",month);
+                editor.commit();
+            }
+        }
 
         ImageButton btnAddIncome = (ImageButton) findViewById(R.id.btnAddIncome);
         btnAddIncome.setOnClickListener(new View.OnClickListener() {
@@ -252,7 +288,7 @@ public class MainActivity extends AppCompatActivity
                     preferences = getSharedPreferences("BUDGET", MODE_PRIVATE);
                     editor = preferences.edit();
                     // Commit to shared preferences
-                    editor.putInt("BudgetData",0);
+                    editor.putInt("BudgetData",-1);
                     editor.commit();
                     // Go back to Login
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
