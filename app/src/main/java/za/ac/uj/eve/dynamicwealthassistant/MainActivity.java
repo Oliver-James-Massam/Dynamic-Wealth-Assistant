@@ -274,6 +274,13 @@ public class MainActivity extends AppCompatActivity
                     editor.commit();
 
                     // Delete Shared Preferences
+                    preferences = getSharedPreferences("LASTMONTH", MODE_PRIVATE);
+                    editor = preferences.edit();
+                    // Commit to shared preferences
+                    editor.putInt("LastMonthData",-1);
+                    editor.commit();
+
+                    // Delete Shared Preferences
                     preferences = getSharedPreferences("BALANCE", MODE_PRIVATE);
                     editor = preferences.edit();
                     // Commit to shared preferences
